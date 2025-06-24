@@ -1,0 +1,674 @@
+:root {
+    --primary-color: #6366f1;
+    --income-color: #22c55e;
+    --expense-color: #ef4444;
+    --balance-color: #3b82f6;
+    --background-color: #f8fafc;
+    --card-background: #ffffff;
+    --text-color: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --input-background: #ffffff;
+    --input-border: #cbd5e1;
+    --button-hover: #4f46e5;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --chart-grid: #e2e8f0;
+    --modal-overlay: rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode {
+    --primary-color: #818cf8;
+    --income-color: #4ade80;
+    --expense-color: #f87171;
+    --balance-color: #60a5fa;
+    --background-color: #0f172a;
+    --card-background: #1e293b;
+    --text-color: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border-color: #334155;
+    --input-background: #1e293b;
+    --input-border: #475569;
+    --button-hover: #6366f1;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --chart-grid: #334155;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    font-family: cinzel;
+    margin-bottom: 0.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+header h1::after {
+    position: absolute;
+    content: " ";
+    left: 0;
+    bottom: 2px;
+    height: 3px;
+    width: 100%;
+    border-radius: 100%;
+    background-color: black;
+}
+
+body.dark-mode header h1::after {
+    background-color: white;
+}
+
+header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-family: rowdies;
+}
+
+.theme-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+#theme-toggle-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 10px;
+}
+
+#theme-toggle-btn:hover {
+    background-color: var(--border-color);
+}
+
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.card {
+    background-color: var(--card-background);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border-left: 4px solid;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.income-card {
+    border-left-color: var(--income-color);
+}
+
+.expense-card {
+    border-left-color: var(--expense-color);
+}
+
+.balance-card {
+    border-left-color: var(--balance-color);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.card-header h2 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.card-header i {
+    font-size: 1.2rem;
+}
+
+.income-card i {
+    color: var(--income-color);
+}
+
+.expense-card i {
+    color: var(--expense-color);
+}
+
+.balance-card i {
+    color: var(--balance-color);
+}
+
+.card-amount {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.income-amount {
+    color: var(--income-color);
+}
+
+.expense-amount {
+    color: var(--expense-color);
+}
+
+.balance-amount {
+    color: var(--balance-color);
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
+
+.tab-btn {
+    padding: 0.75rem 1.5rem;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+.tab-content {
+    display: none;
+    background-color: var(--card-background);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.form-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-header i {
+    font-size: 1.2rem;
+}
+
+#expense-tab .form-header i {
+    color: var(--expense-color);
+}
+
+#income-tab .form-header i {
+    color: var(--income-color);
+}
+
+.tab-content p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+input,
+select {
+    padding: 0.75rem;
+    border: 1px solid var(--input-border);
+    border-radius: 0.375rem;
+    background-color: var(--input-background);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.submit-btn:hover {
+    background-color: var(--button-hover);
+}
+
+.monthly-overview,
+.recent-transactions,
+.budget-planner {
+    background-color: var(--card-background);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+}
+
+.monthly-overview h2,
+.recent-transactions h2,
+.budget-planner h2 {
+    margin-bottom: 0.5rem;
+}
+
+.monthly-overview p,
+.recent-transactions p,
+.budget-planner p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.chart-container {
+    margin-top: 1.5rem;
+}
+
+.chart-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.chart-tab {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 0.375rem;
+    padding: 0.5rem 1rem;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.chart-tab.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.charts {
+    position: relative;
+    height: 300px;
+}
+
+.chart-wrapper {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.chart-wrapper.active {
+    display: block;
+}
+
+.pie-charts {
+    display: flex;
+    gap: 2rem;
+    height: 100%;
+}
+
+.pie-chart {
+    flex: 1;
+    text-align: center;
+}
+
+.pie-chart h3 {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.section-header div {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-header i {
+    color: var(--primary-color);
+}
+
+.download-options {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.download-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 0.375rem;
+    padding: 0.5rem 1rem;
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s;
+}
+
+.download-btn:hover {
+    background-color: var(--border-color);
+}
+
+.filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.filter {
+    flex: 1;
+}
+
+.filter select,
+.filter input {
+    width: 100%;
+}
+
+.transactions-table-container {
+    overflow-x: auto;
+}
+
+.transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.transactions-table th,
+.transactions-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.transactions-table th {
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 2rem 0;
+}
+
+.action-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 0.375rem;
+    padding: 0.5rem 1rem;
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s;
+}
+
+.action-btn:hover {
+    background-color: var(--border-color);
+}
+
+.budget-list {
+    margin-top: 1.5rem;
+}
+
+.budget-item {
+    background-color: var(--background-color);
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.budget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.budget-category {
+    font-weight: 500;
+}
+
+.budget-progress {
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+    height: 0.5rem;
+    background-color: var(--border-color);
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--primary-color);
+    transition: width 0.3s;
+}
+
+.budget-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--modal-overlay);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: var(--card-background);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+}
+
+.save-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.save-btn:hover {
+    background-color: var(--button-hover);
+}
+
+.delete-btn {
+    background-color: var(--expense-color);
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: #dc2626;
+}
+
+.transaction-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.edit-btn,
+.delete-transaction-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.edit-btn {
+    color: var(--primary-color);
+}
+
+.delete-transaction-btn {
+    color: var(--expense-color);
+}
+
+.edit-btn:hover,
+.delete-transaction-btn:hover {
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .filters {
+        flex-direction: column;
+    }
+
+    .pie-charts {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .pie-chart {
+        height: 200px;
+        margin-bottom: 1rem;
+    }
+
+    .charts {
+        height: auto;
+    }
+
+    .chart-wrapper {
+        position: relative;
+        height: 300px;
+    }
+}
